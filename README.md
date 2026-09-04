@@ -4,6 +4,13 @@ Site educacional em duas trilhas — **Blockchain** (tema dourado/preto) e **Bit
 (tema roxo/azul escuro) — construído a partir do conteúdo do PDF de referência
 (Blockchain e Criptomoedas, Jonatan Natan, Luiz Felipe, Pedro Carnio).
 
+**100% estático — sem backend, sem banco de dados.** O formulário de contato
+envia direto do navegador para o [Web3Forms](https://web3forms.com), um serviço
+gratuito de recebimento de formulários. Isso significa que o site inteiro pode
+ser hospedado em qualquer host de arquivos estáticos (Vercel, Netlify, GitHub
+Pages, Railway static, Cloudflare Pages...) sem precisar manter servidor nem
+banco de dados no ar.
+
 ## Stack
 
 - **React 18 + TypeScript** — componentes funcionais, tipados
@@ -11,21 +18,19 @@ Site educacional em duas trilhas — **Blockchain** (tema dourado/preto) e **Bit
 - **React Router** — rotas client-side + página 404 customizada
 - **react-helmet-async** — `<title>`/meta tags únicos por página
 - **DOMPurify** — sanitização de qualquer HTML renderizado
-- **Express** (`/server`) — API mínima para o formulário de contato, com CSRF,
-  rate limiting e headers de segurança (exemplo de backend; troque por sua
-  stack se preferir Next.js/Nest/etc — os princípios de segurança são os mesmos)
+- **Web3Forms** — recebimento do formulário de contato sem backend próprio
 
 ## Estrutura de pastas
 
 ```
 blockchain-bitcoin-edu/
-├── index.html                     # Entry HTML: CSP de fallback, favicons, fonts, meta padrão
-├── vite.config.ts                 # Config do Vite (alias @/, proxy /api em dev)
+├── index.html                     # Entry HTML: CSP, favicons, fonts, meta padrão
+├── vite.config.ts                 # Config do Vite (alias @/)
 ├── tailwind.config.ts             # Paleta/tema (chain-* dourado, coin-* roxo) e fontes
 ├── tsconfig.json / tsconfig.node.json
 ├── vercel.json                    # Headers de segurança + SPA rewrite (deploy na Vercel)
 ├── package.json
-├── .env.example                   # Variáveis de ambiente do backend (copie para .env)
+├── .env.example                   # VITE_WEB3FORMS_ACCESS_KEY (copie para .env)
 │
 ├── public/                        # Arquivos estáticos servidos na raiz do site
 │   ├── favicon.ico, favicon-16x16.png, favicon-32x32.png,
@@ -43,66 +48,72 @@ blockchain-bitcoin-edu/
 │   ├── _headers                   # Headers de segurança para hosts estilo Netlify
 │   └── _redirects                 # Fallback de SPA para hosts estilo Netlify
 │
-├── src/
-│   ├── main.tsx                   # Bootstrap: StrictMode, ErrorBoundary, HelmetProvider, Router
-│   ├── App.tsx                    # Definição de rotas + lazy loading + CookieBanner global
-│   ├── index.css                  # Tailwind layers + acessibilidade (focus-visible, reduced motion)
-│   ├── vite-env.d.ts
-│   │
-│   ├── components/
-│   │   ├── layout/
-│   │   │   ├── Header.tsx         # Nav com tema (blockchain/bitcoin/neutral)
-│   │   │   ├── Footer.tsx         # Rodape com Dados 
-│   │   │   ├── StickyMobileCTA.tsx# CTA fixo no rodapé, só mobile (item 11)
-│   │   │   ├── CookieBanner.tsx   # Banner de cookies / consentimento (item 17)
-│   │   │   ├── SEO.tsx            # <title>/description/OG por página (itens 3, 4, 5)
-│   │   │   └── ErrorBoundary.tsx  # Fallback seguro para erros de render
-│   │   └── ui/
-│   │       ├── Button.tsx         # Botão com estado de loading (item 12)
-│   │       ├── Card.tsx           # Cartão de conteúdo, tema-aware
-│   │       ├── FormField.tsx      # Campo de formulário acessível com estado de erro (item 13)
-│   │       └── Loader.tsx         # Spinner + skeleton (item 12)
-│   │
-│   ├── pages/
-│   │   ├── HomePage.tsx           # Tela inicial: 2 opções acima da dobra (item 2)
-│   │   ├── BlockchainPage.tsx     # Trilha Blockchain (dourado/preto)
-│   │   ├── BitcoinPage.tsx        # Trilha Bitcoin (roxo/azul escuro)
-│   │   ├── ContactPage.tsx        # Formulário com CSRF + validação + sanitização
-│   │   ├── ThankYouPage.tsx       # item 14
-│   │   ├── PrivacyPolicyPage.tsx  # item 15
-│   │   ├── TermsPage.tsx          # item 16
-│   │   └── NotFoundPage.tsx       # item 1 (404 customizada)
-│   │
-│   ├── lib/
-│   │   ├── sanitize.ts            # DOMPurify — sanitização de HTML/texto
-│   │   ├── validate.ts            # Validação client-side (espelha server/validate.ts)
-│   │   ├── csrf.ts                # Double-submit cookie: obtém e anexa X-CSRF-Token
-│   │   └── analytics.ts           # Analytics só carrega após consentimento (item 18)
-│   │
-│   ├── hooks/
-│   │   └── useCookieConsent.ts    # Estado de consentimento (localStorage) + trigger de analytics
-│   │
-│   └── types/
-│       └── index.ts               # Tipos compartilhados (Theme, ContactFormValues, etc.)
-│
-└── server/                        # Backend de exemplo (Node/Express) para o formulário
-    ├── index.ts                   # Helmet (CSP/HSTS/headers), CORS same-origin, rate limit,
-    │                               # emissão/verificação de CSRF, rota /api/contact
-    ├── validate.ts                # Validação SERVER-SIDE (fonte da verdade — nunca confia no client)
-    └── db.ts                      # Camada de dados com QUERIES PARAMETRIZADAS (exemplo node-postgres)
+└── src/
+    ├── main.tsx                   # Bootstrap: StrictMode, ErrorBoundary, HelmetProvider, Router
+    ├── App.tsx                    # Definição de rotas + lazy loading + CookieBanner global
+    ├── index.css                  # Tailwind layers + acessibilidade (focus-visible, reduced motion)
+    ├── vite-env.d.ts              # Tipagem da env var VITE_WEB3FORMS_ACCESS_KEY
+    │
+    ├── components/
+    │   ├── layout/
+    │   │   ├── Header.tsx         # Nav com tema (blockchain/bitcoin/neutral)
+    │   │   ├── Footer.tsx         # Links legais + endereço real de contato (item 19)
+    │   │   ├── StickyMobileCTA.tsx# CTA fixo no rodapé, só mobile (item 11)
+    │   │   ├── CookieBanner.tsx   # Banner de cookies / consentimento (item 17)
+    │   │   ├── SEO.tsx            # <title>/description/OG por página (itens 3, 4, 5)
+    │   │   └── ErrorBoundary.tsx  # Fallback seguro para erros de render
+    │   └── ui/
+    │       ├── Button.tsx         # Botão com estado de loading (item 12)
+    │       ├── Card.tsx           # Cartão de conteúdo, tema-aware
+    │       ├── FormField.tsx      # Campo de formulário acessível com estado de erro (item 13)
+    │       └── Loader.tsx         # Spinner + skeleton (item 12)
+    │
+    ├── pages/
+    │   ├── HomePage.tsx           # Tela inicial: 2 opções acima da dobra (item 2)
+    │   ├── BlockchainPage.tsx     # Trilha Blockchain (dourado/preto)
+    │   ├── BitcoinPage.tsx        # Trilha Bitcoin (roxo/azul escuro)
+    │   ├── ContactPage.tsx        # Formulário → Web3Forms, validação + sanitização
+    │   ├── ThankYouPage.tsx       # item 14
+    │   ├── PrivacyPolicyPage.tsx  # item 15
+    │   ├── TermsPage.tsx          # item 16
+    │   └── NotFoundPage.tsx       # item 1 (404 customizada)
+    │
+    ├── lib/
+    │   ├── sanitize.ts            # DOMPurify — sanitização de HTML/texto
+    │   ├── validate.ts            # Validação do formulário (client-side)
+    │   ├── webform.ts             # Envio do formulário direto ao Web3Forms
+    │   └── analytics.ts           # Analytics só carrega após consentimento (item 18)
+    │
+    ├── hooks/
+    │   └── useCookieConsent.ts    # Estado de consentimento (localStorage) + trigger de analytics
+    │
+    └── types/
+        └── index.ts               # Tipos compartilhados (Theme, ContactFormValues, etc.)
 ```
+
+## Configurando o formulário de contato (Web3Forms)
+
+1. Acesse **https://web3forms.com**, informe seu e-mail — eles te mandam uma
+   *access key* na hora, sem precisar criar conta/senha.
+2. Copie `.env.example` para `.env` e cole a chave em `VITE_WEB3FORMS_ACCESS_KEY`.
+3. Depois de publicar com um domínio real, entre no painel do Web3Forms e
+   restrinja a chave a esse domínio (**Settings → Allowed Domains**) — isso
+   impede que outro site use sua chave e consuma sua cota de envios.
+4. Configure a mesma variável de ambiente (`VITE_WEB3FORMS_ACCESS_KEY`) no
+   painel do seu host (Vercel/Netlify/Railway) antes do build de produção —
+   ela precisa existir *no momento do build*, porque o Vite embute variáveis
+   `VITE_*` no bundle estático.
+
+Sem essa chave configurada, o formulário mostra um erro amigável ("O
+formulário de contato ainda não foi configurado") em vez de falhar
+silenciosamente — ver `src/lib/webform.ts`.
 
 ## Rodando localmente
 
 ```bash
 npm install
-
-# Frontend (Vite dev server em :5173, com proxy /api -> :8787)
-npm run dev
-
-# Backend de exemplo (Express em :8787) — em outro terminal
-cp .env.example .env
-npm run server
+cp .env.example .env   # depois cole sua chave do Web3Forms
+npm run dev            # http://localhost:5173
 ```
 
 Build de produção:
@@ -112,20 +123,34 @@ npm run build     # gera /dist
 npm run preview   # serve /dist localmente para conferência
 ```
 
+## Deploy
+
+Qualquer host de arquivos estáticos funciona. Build command: `npm run build`.
+Output directory: `dist`. Não esqueça de configurar a variável de ambiente
+`VITE_WEB3FORMS_ACCESS_KEY` no painel do host antes do build.
+
+- **Vercel/Netlify**: detectam Vite automaticamente; `vercel.json` e
+  `public/_headers` já configuram os headers de segurança e o fallback de SPA.
+- **Railway**: se o serviço estiver marcado como "Unexposed", vá em
+  **Settings → Networking → Generate Domain** para publicar a URL.
+
 ## Segurança implementada
 
 | Ameaça | Onde | Como |
 |---|---|---|
-| **SQL Injection** | `server/db.ts` | Todas as queries usam placeholders parametrizados (`$1, $2...`), nunca concatenação de string. Se usar ORM (Prisma/Drizzle/Knex), use o query builder — nunca `raw()` com interpolação. |
-| **XSS** | `src/lib/sanitize.ts`, todas as páginas | React escapa `{children}` por padrão — nenhum componente usa `dangerouslySetInnerHTML` com dado do usuário. Quando HTML rico é inevitável (conteúdo de CMS confiável), passa por `DOMPurify` com allow-list estrita. CSP em `index.html` **e** em `server/index.ts` bloqueia `<script>` inline. |
-| **CSRF** | `src/lib/csrf.ts` + `server/index.ts` | Padrão *double-submit cookie*: cookie `csrf_token` legível por JS + header `X-CSRF-Token` obrigatório em toda requisição que muda estado, **e** validação do header `Origin`/`Referer` no servidor. |
-| **Input do servidor** | `server/validate.ts` | Validação e sanitização (tamanho, tipo, caracteres de controle) ocorrem no servidor, independente do que o client mandar — o client nunca é fonte da verdade. |
+| **XSS** | `src/lib/sanitize.ts`, todas as páginas | React escapa `{children}` por padrão — nenhum componente usa `dangerouslySetInnerHTML` com dado do usuário. Quando HTML rico é inevitável (conteúdo de CMS confiável), passa por `DOMPurify` com allow-list estrita. A CSP em `index.html`/`vercel.json`/`public/_headers` bloqueia `<script>` inline. |
+| **Spam no formulário** | `src/pages/ContactPage.tsx`, `src/lib/webform.ts` | Honeypot próprio (`company`, campo escondido) + honeypot do Web3Forms (`botcheck`) + filtro de spam do lado deles. |
+| **Validação de input** | `src/lib/validate.ts` | Tamanho máximo, formato de e-mail, normalização de texto antes do envio. Como não há backend próprio, a validação "de verdade" (contra abuso malicioso, não só UX) é feita pelo Web3Forms do lado deles. |
 | **Output** | Componentes React | Toda saída dinâmica passa pelo escaping automático do JSX; nada é injetado como HTML bruto. |
-| **Headers** | `server/index.ts` (Helmet), `vercel.json`, `public/_headers` | `Content-Security-Policy`, `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy`, `Strict-Transport-Security`, `Permissions-Policy`. `X-XSS-Protection` é explicitamente desabilitado (`0`) — é uma proteção legada e obsoleta; a CSP é quem faz esse trabalho hoje. |
-| **Cookies** | `server/index.ts` | Cookie de sessão (quando adicionado) deve ser `HttpOnly` + `Secure` + `SameSite=Strict`. O cookie `csrf_token` é intencionalmente **não** `HttpOnly` (o JS precisa lê-lo para ecoar no header) — esse é o único cookie legível por design. |
-| **Rate limiting / spam** | `server/index.ts` | `express-rate-limit` no endpoint de contato; honeypot (`company`) no formulário. |
+| **Headers** | `vercel.json`, `public/_headers` | `Content-Security-Policy`, `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy`, `Strict-Transport-Security`, `Permissions-Policy`. |
+| **Chave exposta no client** | `src/lib/webform.ts` | A *access key* do Web3Forms é pública por design (como uma site key de reCAPTCHA) — a proteção real vem de restringi-la ao seu domínio no painel deles, não de escondê-la. |
 
-
+> **Precisa de mais controle?** Se no futuro você quiser salvar as mensagens
+> no seu próprio banco, mandar e-mails do seu próprio domínio, ou adicionar
+> autenticação, o caminho é voltar a um backend próprio (Node/Express com
+> CSRF, rate limiting e Postgres via query parametrizada) — é só trocar o
+> conteúdo de `src/lib/webform.ts` pela chamada ao seu endpoint. Posso montar
+> essa versão de novo a qualquer momento.
 
 ## Checklist de entrega (itens solicitados)
 
@@ -147,7 +172,7 @@ npm run preview   # serve /dist localmente para conferência
 16. Termos de Uso → `src/pages/TermsPage.tsx`
 17. Banner de cookies → `src/components/layout/CookieBanner.tsx`
 18. Analytics instalado → `src/lib/analytics.ts` (só carrega após consentimento)
-
+19. Endereço de contato real → `src/components/layout/Footer.tsx` (`<address>`)
 
 ## Observação de conteúdo
 

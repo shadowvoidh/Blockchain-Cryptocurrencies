@@ -4,10 +4,10 @@ import { normalizeText } from "./sanitize";
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /**
- * Client-side validation is a UX convenience only. The server in
- * server/index.ts repeats every one of these checks — the client can
- * always be bypassed (devtools, curl, a modified request), so it is
- * never the source of truth for what is "valid".
+ * Client-side validation. Since this project has no backend of its own —
+ * the form posts straight to Web3Forms (see webform.ts) — this is mostly a
+ * UX layer (instant feedback, avoids a round trip for obvious mistakes).
+ * The abuse-resistant validation happens on Web3Forms' side.
  */
 export function validateContactForm(values: ContactFormValues): ContactFormErrors {
   const errors: ContactFormErrors = {};

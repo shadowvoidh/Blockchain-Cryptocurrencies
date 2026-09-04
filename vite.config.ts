@@ -2,8 +2,8 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 
-// Vite config: React + TS. Dev server proxies /api to the Express
-// backend so cookies (HttpOnly CSRF/session) work under one origin.
+// Vite config: React + TS, static build (no backend/proxy needed — the
+// contact form talks directly to Web3Forms, see src/lib/webform.ts).
 export default defineConfig({
   plugins: [react()],
   resolve: {
@@ -13,13 +13,6 @@ export default defineConfig({
   },
   server: {
     port: 5173,
-    proxy: {
-      "/api": {
-        target: "http://localhost:8787",
-        changeOrigin: true,
-        credentials: true,
-      } as any,
-    },
   },
   build: {
     sourcemap: false, // don't ship source maps to production (avoid leaking source)
