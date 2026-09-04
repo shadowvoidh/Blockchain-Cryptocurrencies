@@ -61,8 +61,8 @@ export default function PrivacyPolicyPage() {
               Você pode solicitar confirmação de tratamento, acesso, correção, anonimização,
               portabilidade ou eliminação dos seus dados, e pode revogar o consentimento a
               qualquer momento. Para exercer esses direitos, escreva para{" "}
-              <a href="mailto:privacidade@exemplo-blockchain-edu.com.br" className="underline">
-                privacidade@exemplo-blockchain-edu.com.br
+              <a href="mailto:shadow.voidh@gmail.com" className="underline">
+                shadow.voidh@gmail.com
               </a>.
             </p>
           </section>

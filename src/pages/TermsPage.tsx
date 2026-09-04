@@ -78,8 +78,8 @@ export default function TermsPage() {
             <h2 className="text-lg font-semibold text-white">7. Contato</h2>
             <p className="mt-2">
               Dúvidas sobre estes termos podem ser enviadas para{" "}
-              <a href="mailto:contato@exemplo-blockchain-edu.com.br" className="underline">
-                contato@exemplo-blockchain-edu.com.br
+              <a href="mailto:shadow.voidh@gmail.com" className="underline">
+                shadow.voidh@gmail.com
               </a>.
             </p>
           </section>
