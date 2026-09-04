@@ -1,6 +1,10 @@
 <div align="center">
 
-# 🪙 Guia Cripto — Blockchain & Bitcoin
+# 💱 Guia Cripto   Blockchain & Bitcoin
+
+### ⚠️Aviso Legal
+
+## Este site possui finalidade exclusivamente educacional. Todo o conteúdo disponibilizado não constitui aconselhamento financeiro, recomendação de investimento ou incentivo à compra de ativos digitais.
 
 ### Plataforma educacional e interativa sobre fundamentos da Web3 e Criptomoedas
 
@@ -16,7 +20,7 @@
 
 <p align="center">
   Construído a partir do conteúdo do PDF de referência:<br />
-  <strong>"Blockchain e Criptomoedas" — Pedro Carnio</strong>
+  <strong>"Blockchain e Criptomoedas"  Pedro Carnio</strong>
 </p>
 
 </div>
