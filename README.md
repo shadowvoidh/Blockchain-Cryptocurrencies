@@ -1,27 +1,91 @@
-# Guia Cripto — Blockchain & Bitcoin (React + TypeScript + Tailwind)
+<div align="center">
 
-Site educacional em duas trilhas — **Blockchain** (tema dourado/preto) e **Bitcoin**
-(tema roxo/azul escuro) — construído a partir do conteúdo do PDF de referência
-(Blockchain e Criptomoedas, Jonatan Natan, Luiz Felipe, Pedro Carnio).
+# 🪙 Guia Cripto — Blockchain & Bitcoin
 
-**100% estático — sem backend, sem banco de dados.** O formulário de contato
-envia direto do navegador para o [Web3Forms](https://web3forms.com), um serviço
-gratuito de recebimento de formulários. Isso significa que o site inteiro pode
-ser hospedado em qualquer host de arquivos estáticos (Vercel, Netlify, GitHub
-Pages, Railway static, Cloudflare Pages...) sem precisar manter servidor nem
-banco de dados no ar.
+### Plataforma educacional e interativa sobre fundamentos da Web3 e Criptomoedas
 
-## Stack
+[![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.0-38BDF8?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![Vite](https://img.shields.io/badge/Vite-5.0-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Status](https://img.shields.io/badge/Status-Online-brightgreen?style=for-the-badge)](#)
 
-- **React 18 + TypeScript** — componentes funcionais, tipados
-- **Tailwind CSS** — estilização, dois design tokens de tema (`chain-*`, `coin-*`)
-- **React Router** — rotas client-side + página 404 customizada
-- **react-helmet-async** — `<title>`/meta tags únicos por página
-- **DOMPurify** — sanitização de qualquer HTML renderizado
-- **Web3Forms** — recebimento do formulário de contato sem backend próprio
+<br />
 
-## Estrutura de pastas
+[![Acessar Projeto](https://img.shields.io/badge/Acessar_Site-7C3AED?style=for-the-badge&logo=bitcoin&logoColor=white)](https://blockchain-cryptocurrencies-production.up.railway.app/)
 
+<p align="center">
+  Construído a partir do conteúdo do PDF de referência:<br />
+  <strong>"Blockchain e Criptomoedas" — Pedro Carnio</strong>
+</p>
+
+</div>
+
+---
+
+## 📖 Sobre o Projeto
+
+O **Guia Cripto** é uma aplicação web educacional desenvolvida para desmistificar o funcionamento da tecnologia **Blockchain** e da rede **Bitcoin**. O site é dividido em duas trilhas interativas independentes, cada uma com identidade visual e paleta de cores próprias:
+
+- 🔗 **Trilha 01 — Blockchain** (Tema Dourado e Preto / `chain-*`): Focada em livro-razão distribuído, imutabilidade, descentralização e casos de uso enterprise.
+- 🪙 **Trilha 02 — Bitcoin** (Tema Roxo e Azul Escuro / `coin-*`): Navegação em etapas/telas abordando a criação por Satoshi Nakamoto, conceitos chave, fluxo de transação em 7 passos, vantagens e desafios.
+
+---
+
+## ✨ Funcionalidades e Destaques
+
+- **Navegação Interativa por Etapas:** A trilha do Bitcoin permite alternar dinamicamente entre conteúdos com animações suaves de transição.
+- **Mapeamento do Site (`/sitemap`):** Página dedicada para visualização rápida da arquitetura e das seções do projeto.
+- **Design System com Design Tokens:** Dois temas totalmente isolados configurados nativamente via Tailwind CSS.
+- **Acessibilidade & UX:** Suporte a `focus-visible`, navegação por teclado, leitor de tela (`aria-*`), atalhos de pulo de conteúdo e suporte a `prefers-reduced-motion`.
+- **Conformidade LGPD:** Banner de consentimento de cookies dinâmico que gerencia a inicialização dos scripts de Analytics.
+- **Formulário Seguro de Contato:** Sanitização de dados no cliente (`DOMPurify`) e integração direta com Web3Forms sem necessidade de backend próprio.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Core:** React 18, TypeScript, Vite
+- **Estilização:** Tailwind CSS, Lucide React (ícones)
+- **Roteamento:** React Router DOM (v6) com carregamento sob demanda (`React.lazy` + `Suspense`)
+- **SEO & Head Management:** `react-helmet-async` (meta tags dinâmicas por página e Open Graph)
+- **Segurança & Formulários:** DOMPurify, Web3Forms API
+
+---
+
+## 💻 Como Rodar o Projeto Localmente
+
+### Pré-requisitos
+- Node.js (v18 ou superior)
+- Gerenciador de pacotes `npm` ou `yarn`
+
+### Passo a passo
+
+1. **Clone o repositório:**
+   ```bash
+   git clone [https://github.com/shadowvoidh/Blockchain-Cryptocurrencies.git](https://github.com/shadowvoidh/Blockchain-Cryptocurrencies.git)
+   cd Blockchain-Cryptocurrencies
+
+    Instale as dependências:
+    npm install
+
+    Configure as variáveis de ambiente:
+    Crie um arquivo .env na raiz do projeto baseado no .env.example:
+
+    Bash
+    cp .env.example .env
+    Adicione sua chave de acesso do Web3Forms no .env:
+
+    Snippet de código
+    VITE_WEB3FORMS_ACCESS_KEY=sua_chave_aqui
+    Inicie o servidor de desenvolvimento:
+
+    Bash
+    npm run dev
+    Acesse a aplicação em http://localhost:5173.
+
+
+#📁 Estrutura de Pastas
 ```
 blockchain-bitcoin-edu/
 ├── index.html                     # Entry HTML: CSP, favicons, fonts, meta padrão
@@ -91,90 +155,14 @@ blockchain-bitcoin-edu/
         └── index.ts               # Tipos compartilhados (Theme, ContactFormValues, etc.)
 ```
 
-## Configurando o formulário de contato (Web3Forms)
 
-1. Acesse **https://web3forms.com**, informe seu e-mail — eles te mandam uma
-   *access key* na hora, sem precisar criar conta/senha.
-2. Copie `.env.example` para `.env` e cole a chave em `VITE_WEB3FORMS_ACCESS_KEY`.
-3. Depois de publicar com um domínio real, entre no painel do Web3Forms e
-   restrinja a chave a esse domínio (**Settings → Allowed Domains**) — isso
-   impede que outro site use sua chave e consuma sua cota de envios.
-4. Configure a mesma variável de ambiente (`VITE_WEB3FORMS_ACCESS_KEY`) no
-   painel do seu host (Vercel/Netlify/Railway) antes do build de produção —
-   ela precisa existir *no momento do build*, porque o Vite embute variáveis
-   `VITE_*` no bundle estático.
+## 🌘Autor
+* **Shadow_Voidh** - (https://github.com/shadowvoidh)
 
-Sem essa chave configurada, o formulário mostra um erro amigável ("O
-formulário de contato ainda não foi configurado") em vez de falhar
-silenciosamente — ver `src/lib/webform.ts`.
+## 📬 Contato
+* **GitHub:** [@shadowvoidh](https://github.com/shadowvoidh)
+* **Instagram:** [@shadow_voidh](https://www.instagram.com/shadow_voidh/)
+* **LinkedIn:** [Pedro Carnio](https://linkedin.com/in/pedrocarnio)
+* **Discord:** shadow_voidh
+* **E-mail:** shadow.voidh@gmail.com
 
-## Rodando localmente
-
-```bash
-npm install
-cp .env.example .env   # depois cole sua chave do Web3Forms
-npm run dev            # http://localhost:5173
-```
-
-Build de produção:
-
-```bash
-npm run build     # gera /dist
-npm run preview   # serve /dist localmente para conferência
-```
-
-## Deploy
-
-Qualquer host de arquivos estáticos funciona. Build command: `npm run build`.
-Output directory: `dist`. Não esqueça de configurar a variável de ambiente
-`VITE_WEB3FORMS_ACCESS_KEY` no painel do host antes do build.
-
-- **Vercel/Netlify**: detectam Vite automaticamente; `vercel.json` e
-  `public/_headers` já configuram os headers de segurança e o fallback de SPA.
-- **Railway**: se o serviço estiver marcado como "Unexposed", vá em
-  **Settings → Networking → Generate Domain** para publicar a URL.
-
-## Segurança implementada
-
-| Ameaça | Onde | Como |
-|---|---|---|
-| **XSS** | `src/lib/sanitize.ts`, todas as páginas | React escapa `{children}` por padrão — nenhum componente usa `dangerouslySetInnerHTML` com dado do usuário. Quando HTML rico é inevitável (conteúdo de CMS confiável), passa por `DOMPurify` com allow-list estrita. A CSP em `index.html`/`vercel.json`/`public/_headers` bloqueia `<script>` inline. |
-| **Spam no formulário** | `src/pages/ContactPage.tsx`, `src/lib/webform.ts` | Honeypot próprio (`company`, campo escondido) + honeypot do Web3Forms (`botcheck`) + filtro de spam do lado deles. |
-| **Validação de input** | `src/lib/validate.ts` | Tamanho máximo, formato de e-mail, normalização de texto antes do envio. Como não há backend próprio, a validação "de verdade" (contra abuso malicioso, não só UX) é feita pelo Web3Forms do lado deles. |
-| **Output** | Componentes React | Toda saída dinâmica passa pelo escaping automático do JSX; nada é injetado como HTML bruto. |
-| **Headers** | `vercel.json`, `public/_headers` | `Content-Security-Policy`, `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy`, `Strict-Transport-Security`, `Permissions-Policy`. |
-| **Chave exposta no client** | `src/lib/webform.ts` | A *access key* do Web3Forms é pública por design (como uma site key de reCAPTCHA) — a proteção real vem de restringi-la ao seu domínio no painel deles, não de escondê-la. |
-
-> **Precisa de mais controle?** Se no futuro você quiser salvar as mensagens
-> no seu próprio banco, mandar e-mails do seu próprio domínio, ou adicionar
-> autenticação, o caminho é voltar a um backend próprio (Node/Express com
-> CSRF, rate limiting e Postgres via query parametrizada) — é só trocar o
-> conteúdo de `src/lib/webform.ts` pela chamada ao seu endpoint. Posso montar
-> essa versão de novo a qualquer momento.
-
-## Checklist de entrega (itens solicitados)
-
-1. Página 404 customizada → `src/pages/NotFoundPage.tsx`
-2. CTA acima da dobra → `src/pages/HomePage.tsx` (duas opções full-height, sem scroll)
-3. Meta title por página → `src/components/layout/SEO.tsx`, usado em cada página
-4. Meta description por página → idem
-5. Imagem Open Graph → `public/og-image-*.png` + `<meta property="og:image">`
-6. Conjunto de favicons → `public/favicon*.png`, `favicon.ico`, `site.webmanifest`
-7. `robots.txt` → `public/robots.txt`
-8. `sitemap.xml` → `public/sitemap.xml`
-9. Alt text em toda imagem → ver `<img alt=...>` em `BlockchainPage.tsx` / `BitcoinPage.tsx`
-10. Breakpoints mobile → classes `sm:`/`md:` do Tailwind em todos os componentes
-11. CTA fixo mobile → `src/components/layout/StickyMobileCTA.tsx`
-12. Estados de loading → `Button` (`isLoading`), `Loader`/`SkeletonBlock`, `Suspense` em `App.tsx`
-13. Estados de erro em formulário → `FormField` (`aria-invalid`, mensagem `role="alert"`) em `ContactPage.tsx`
-14. Página de agradecimento → `src/pages/ThankYouPage.tsx`
-15. Política de Privacidade → `src/pages/PrivacyPolicyPage.tsx`
-16. Termos de Uso → `src/pages/TermsPage.tsx`
-17. Banner de cookies → `src/components/layout/CookieBanner.tsx`
-18. Analytics instalado → `src/lib/analytics.ts` (só carrega após consentimento)
-19. Endereço de contato real → `src/components/layout/Footer.tsx` (`<address>`)
-
-## Observação de conteúdo
-
-Este site tem finalidade **educacional**. Nenhuma página constitui recomendação
-de investimento — isso está explícito em `BitcoinPage.tsx` e em `TermsPage.tsx`.
