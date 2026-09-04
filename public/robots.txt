@@ -1,0 +1,7 @@
+# robots.txt — https://www.exemplo-blockchain-edu.com.br
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /obrigado
+
+Sitemap: https://www.exemplo-blockchain-edu.com.br/sitemap.xml

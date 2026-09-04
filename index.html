@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!--
+      SECURITY NOTE: A meta-tag CSP is a fallback only. The authoritative
+      Content-Security-Policy is set server-side via HTTP response header
+      in server/index.ts (using Helmet) and in vercel.json / public/_headers
+      for static hosting, because response headers cannot be stripped the
+      way a meta tag inside cached HTML can be, and only headers can carry
+      directives like frame-ancestors (browsers ignore frame-ancestors when
+      it's set via <meta> — clickjacking protection there comes from the
+      X-Frame-Options header instead, see server/index.ts).
+
+      style-src includes 'unsafe-inline': Vite's dev server (HMR) and React
+      Fast Refresh inject component styles as inline <style> tags — without
+      this the app loads with zero CSS applied, exactly as if the stylesheet
+      never loaded. This is a standard, low-risk relaxation (inline CSS alone
+      cannot execute JavaScript); script-src stays strict with no
+      'unsafe-inline'/'unsafe-eval', which is what actually matters for XSS.
+    -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self';
+        script-src 'self';
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+        font-src 'self' https://fonts.gstatic.com;
+        img-src 'self' data: https:;
+        connect-src 'self';
+        base-uri 'self';
+        form-action 'self';
+        object-src 'none'"
+    />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+    <!-- Favicon set -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#0a0805" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Default title/description; every route overrides these via <SEO /> + react-helmet-async -->
+    <title>Blockchain &amp; Bitcoin — Guia Educacional</title>
+    <meta
+      name="description"
+      content="Aprenda o que é Blockchain e Bitcoin: conceitos, vantagens, aplicações e como a tecnologia funciona, em um guia visual e didático."
+    />
+    <link rel="canonical" href="https://www.exemplo-blockchain-edu.com.br/" />
+  </head>
+  <body class="bg-black text-white antialiased">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
